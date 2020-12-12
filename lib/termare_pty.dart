@@ -61,11 +61,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     if (widget.autoFocus) {}
     while (mounted) {
       final String cur = unixPtyC.read();
-      // print(('cur->$cur'));
       if (cur.isNotEmpty) {
-        if (cur.contains('Audio')) {
-          print(cur);
-        }
         controller.write(cur);
         controller.autoScroll = true;
         controller.notifyListeners();
@@ -78,14 +74,11 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onDoubleTap: () async {},
-      child: TermareView(
-        keyboardInput: (String data) {
-          unixPtyC.write(data);
-        },
-        controller: controller,
-      ),
+    return TermareView(
+      keyboardInput: (String data) {
+        unixPtyC.write(data);
+      },
+      controller: controller,
     );
   }
 }
