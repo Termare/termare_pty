@@ -40,24 +40,36 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         TermareController(
           rowLength: row - 3,
           columnLength: column - 2,
+          // showBackgroundLine: true,
         );
+    String dynamicLibPath = 'libterm.so';
+    if (Platform.isMacOS) {
+      dynamicLibPath =
+          '/Users/nightmare/Desktop/termare-space/dart_pty/dynamic_library/libterm.dylib';
+    }
+    if (Platform.isLinux) {
+      dynamicLibPath =
+          '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
+    }
+    print('row->$row');
+    print('column->$column');
     unixPtyC = widget.unixPtyC ??
         UnixPtyC(
-          libPath: Platform.isMacOS
-              ? '/Users/nightmare/Desktop/termare-space/dart_pty/dynamic_library/libterm.dylib'
-              : 'libterm.so',
+          libPath: dynamicLibPath,
           rowLen: row,
           columnLen: column - 2,
           environment: <String, String>{
             'TERM': 'screen-256color',
-            'PATH':
-                '/data/data/com.nightmare/files/usr/bin:${Platform.environment['PATH']}',
           },
         );
     init();
   }
 
   Future<void> init() async {
+    Future<void>.delayed(const Duration(milliseconds: 200), () {
+      // unixPtyC.write('cat /proc/version\n');
+      unixPtyC.write('screenfetch\n');
+    });
     if (widget.autoFocus) {}
     while (mounted) {
       final String cur = unixPtyC.read();
@@ -74,11 +86,16 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return TermareView(
-      keyboardInput: (String data) {
-        unixPtyC.write(data);
-      },
-      controller: controller,
+    return Theme(
+      data: ThemeData(
+        fontFamily: 'sarasa',
+      ),
+      child: TermareView(
+        keyboardInput: (String data) {
+          unixPtyC.write(data);
+        },
+        controller: controller,
+      ),
     );
   }
 }

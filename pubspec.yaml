@@ -34,3 +34,13 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: SourceCodePro
+      fonts:
+        - asset: assets/fonts/SourceCodePro.ttf
+    - family: SourceCodeProMediumforPowerline
+      fonts:
+        - asset: assets/fonts/SourceCodeProMediumforPowerline.otf
+    - family: sarasa
+      fonts:
+        - asset: assets/fonts/sarasa-ui-sc-semibold.ttf
