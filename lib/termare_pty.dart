@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:termare_view/termare_view.dart';
 
 class TermarePty extends StatefulWidget {
@@ -23,7 +24,8 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   double curOffset = 0;
   double lastLetterOffset = 0;
   int textSelectionOffset = 0;
-  UnixPtyC unixPtyC;
+  // UnixPtyC unixPtyC;
+  UnixPtyC unixPty;
   @override
   void initState() {
     super.initState();
@@ -38,41 +40,57 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     print('$this < row : $row column : $column>');
     controller = widget.controller ??
         TermareController(
-          rowLength: row - 3,
-          columnLength: column - 2,
+          rowLength: row - 1,
+          columnLength: column - 1,
           // showBackgroundLine: true,
         );
     String dynamicLibPath = 'libterm.so';
+    // print(FileSystemEntity.parentOf(Platform.resolvedExecutable));
+    // AssetBundle()
     if (Platform.isMacOS) {
       dynamicLibPath =
           '/Users/nightmare/Desktop/termare-space/dart_pty/dynamic_library/libterm.dylib';
+      dynamicLibPath = 'libterm.dylib';
     }
     if (Platform.isLinux) {
       dynamicLibPath =
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
-    print('row->$row');
-    print('column->$column');
-    unixPtyC = widget.unixPtyC ??
-        UnixPtyC(
-          libPath: dynamicLibPath,
-          rowLen: row,
-          columnLen: column - 2,
-          environment: <String, String>{
-            'TERM': 'screen-256color',
-          },
-        );
+    unixPty = UnixPtyC(
+      libPath: dynamicLibPath,
+      rowLen: row - 1,
+      columnLen: column - 1,
+      environment: <String, String>{
+        'TERM': 'screen-256color',
+      },
+    );
+
+    // unixPtyC = widget.unixPtyC ??
+    //     UnixPty(
+    //       libPath: dynamicLibPath,
+    //       rowLen: row - 1,
+    //       columnLen: column - 1,
+    //       environment: <String, String>{
+    //         'TERM': 'screen-256color',
+    //       },
+    //     );
     init();
   }
 
   Future<void> init() async {
     Future<void>.delayed(const Duration(milliseconds: 200), () {
       // unixPtyC.write('cat /proc/version\n');
-      unixPtyC.write('neofetch\n');
+      // unixPty.write('ssh root@192.168.43.1\n');
+      Future<void>.delayed(const Duration(milliseconds: 400), () {
+        // unixPty.write('mys906262255\n');
+        Future<void>.delayed(const Duration(milliseconds: 100), () {
+          // unixPty.write('neofetch\n');
+        });
+      });
     });
     if (widget.autoFocus) {}
     while (mounted) {
-      final String cur = unixPtyC.read();
+      final String cur = unixPty.read();
       if (cur.isNotEmpty) {
         controller.write(cur);
         controller.autoScroll = true;
@@ -92,7 +110,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       ),
       child: TermareView(
         keyboardInput: (String data) {
-          unixPtyC.write(data);
+          unixPty.write(data);
         },
         controller: controller,
       ),
