@@ -68,7 +68,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   Future<void> init() async {
     Future<void>.delayed(const Duration(milliseconds: 200), () {
       // unixPtyC.write('cat /proc/version\n');
-      unixPtyC.write('screenfetch\n');
+      unixPtyC.write('neofetch\n');
     });
     if (widget.autoFocus) {}
     while (mounted) {
