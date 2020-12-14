@@ -50,7 +50,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     if (Platform.isMacOS) {
       dynamicLibPath =
           '/Users/nightmare/Desktop/termare-space/dart_pty/dynamic_library/libterm.dylib';
-      dynamicLibPath = 'libterm.dylib';
+      // dynamicLibPath = 'libterm.dylib';
     }
     if (Platform.isLinux) {
       dynamicLibPath =
