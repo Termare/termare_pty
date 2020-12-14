@@ -22,7 +22,7 @@ environment:
 
 dependencies:
   dart_pty:
-    git: https://github.com/termare/dart_pty
+    path: ../dart_pty
   flutter:
     sdk: flutter
   termare_view:
@@ -34,6 +34,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/dynamic_lib/
   fonts:
     - family: SourceCodePro
       fonts:
