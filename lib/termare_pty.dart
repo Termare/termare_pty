@@ -20,7 +20,7 @@ class TermarePty extends StatefulWidget {
 }
 
 class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
-  TermareController controller;
+  TermareController _controller;
   double curOffset = 0;
   double lastLetterOffset = 0;
   int textSelectionOffset = 0;
@@ -38,12 +38,8 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     // 列数
     final int column = screenWidth ~/ TermareStyles.termux.letterWidth;
     print('$this < row : $row column : $column>');
-    controller = widget.controller ??
-        TermareController(
-          rowLength: row - 1,
-          columnLength: column - 1,
-          // showBackgroundLine: true,
-        );
+    _controller = widget.controller ?? TermareController();
+    _controller.setPtyWindowSize(size);
     String dynamicLibPath = 'libterm.so';
     // print(FileSystemEntity.parentOf(Platform.resolvedExecutable));
     // AssetBundle()
@@ -56,24 +52,15 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       dynamicLibPath =
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
-    unixPty = UnixPtyC(
-      libPath: dynamicLibPath,
-      rowLen: row - 1,
-      columnLen: column - 1,
-      environment: <String, String>{
-        'TERM': 'screen-256color',
-      },
-    );
-
-    // unixPtyC = widget.unixPtyC ??
-    //     UnixPty(
-    //       libPath: dynamicLibPath,
-    //       rowLen: row - 1,
-    //       columnLen: column - 1,
-    //       environment: <String, String>{
-    //         'TERM': 'screen-256color',
-    //       },
-    //     );
+    unixPty = widget.unixPtyC ??
+        UnixPtyC(
+          libPath: dynamicLibPath,
+          rowLen: row - 1,
+          columnLen: column - 1,
+          environment: <String, String>{
+            'TERM': 'screen-256color',
+          },
+        );
     init();
   }
 
@@ -92,9 +79,9 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     while (mounted) {
       final String cur = unixPty.read();
       if (cur.isNotEmpty) {
-        controller.write(cur);
-        controller.autoScroll = true;
-        controller.notifyListeners();
+        _controller.write(cur);
+        _controller.autoScroll = true;
+        _controller.notifyListeners();
         await Future<void>.delayed(const Duration(milliseconds: 10));
       } else {
         await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -112,7 +99,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         keyboardInput: (String data) {
           unixPty.write(data);
         },
-        controller: controller,
+        controller: _controller,
       ),
     );
   }
