@@ -53,8 +53,13 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
     pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal();
+    String executable = '';
+    if (Platform.isWindows) {
+    } else {
+      executable = 'bash';
+    }
     pseudoTerminal.createSubprocess(
-      'cmd',
+      executable,
     );
     init();
   }
@@ -72,7 +77,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     });
     if (widget.autoFocus) {}
     while (mounted) {
-      final String cur = await pseudoTerminal.read();
+      final String cur = pseudoTerminal.readSync();
       if (cur.isNotEmpty) {
         _controller.write(cur);
         _controller.autoScroll = true;
