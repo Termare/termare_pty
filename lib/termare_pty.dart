@@ -9,11 +9,11 @@ class TermarePty extends StatefulWidget {
   const TermarePty({
     Key key,
     this.controller,
-    this.unixPtyC,
+    this.pseudoTerminal,
     this.autoFocus = false,
   }) : super(key: key);
   final TermareController controller;
-  final UnixPtyC unixPtyC;
+  final PseudoTerminal pseudoTerminal;
   final bool autoFocus;
   @override
   _TermarePtyState createState() => _TermarePtyState();
@@ -25,7 +25,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   double lastLetterOffset = 0;
   int textSelectionOffset = 0;
   // UnixPtyC unixPtyC;
-  UnixPtyC unixPty;
+  PseudoTerminal pseudoTerminal;
   @override
   void initState() {
     super.initState();
@@ -52,15 +52,10 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       dynamicLibPath =
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
-    unixPty = widget.unixPtyC ??
-        UnixPtyC(
-          libPath: dynamicLibPath,
-          rowLen: row - 1,
-          columnLen: column - 1,
-          environment: <String, String>{
-            'TERM': 'screen-256color',
-          },
-        );
+    pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal();
+    pseudoTerminal.createSubprocess(
+      'cmd',
+    );
     init();
   }
 
@@ -77,7 +72,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     });
     if (widget.autoFocus) {}
     while (mounted) {
-      final String cur = unixPty.read();
+      final String cur = await pseudoTerminal.read();
       if (cur.isNotEmpty) {
         _controller.write(cur);
         _controller.autoScroll = true;
@@ -97,7 +92,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       ),
       child: TermareView(
         keyboardInput: (String data) {
-          unixPty.write(data);
+          pseudoTerminal.write(data);
         },
         controller: _controller,
       ),
