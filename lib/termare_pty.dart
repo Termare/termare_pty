@@ -53,14 +53,6 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
     pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal();
-    String executable = '';
-    if (Platform.isWindows) {
-    } else {
-      executable = 'bash';
-    }
-    pseudoTerminal.createSubprocess(
-      executable,
-    );
     init();
   }
 
