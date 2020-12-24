@@ -52,7 +52,12 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       dynamicLibPath =
           '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
     }
-    pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal();
+    if (widget.pseudoTerminal != null) {
+      pseudoTerminal = widget.pseudoTerminal;
+    } else {
+      pseudoTerminal = PseudoTerminal();
+      pseudoTerminal.createSubprocess('bash');
+    }
     init();
   }
 
