@@ -10,21 +10,15 @@ class TermarePty extends StatefulWidget {
     Key key,
     this.controller,
     this.pseudoTerminal,
-    this.autoFocus = false,
   }) : super(key: key);
   final TermareController controller;
   final PseudoTerminal pseudoTerminal;
-  final bool autoFocus;
   @override
   _TermarePtyState createState() => _TermarePtyState();
 }
 
 class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   TermareController _controller;
-  double curOffset = 0;
-  double lastLetterOffset = 0;
-  int textSelectionOffset = 0;
-  // UnixPtyC unixPtyC;
   PseudoTerminal pseudoTerminal;
   @override
   void initState() {
@@ -40,23 +34,16 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     print('$this < row : $row column : $column>');
     _controller = widget.controller ?? TermareController();
     _controller.setPtyWindowSize(size);
-    String dynamicLibPath = 'libterm.so';
-    // print(FileSystemEntity.parentOf(Platform.resolvedExecutable));
-    // AssetBundle()
-    if (Platform.isMacOS) {
-      dynamicLibPath =
-          '/Users/nightmare/Desktop/termare-space/dart_pty/dynamic_library/libterm.dylib';
-      // dynamicLibPath = 'libterm.dylib';
-    }
-    if (Platform.isLinux) {
-      dynamicLibPath =
-          '/home/nightmare/文档/termare/dart_pty/dynamic_library/libterm.so';
+    String executable = 'sh';
+    if (Platform.isWindows) {
+      executable = 'cmd';
+    } else if (Platform.isMacOS) {
+      executable = 'bash';
     }
     if (widget.pseudoTerminal != null) {
       pseudoTerminal = widget.pseudoTerminal;
     } else {
-      pseudoTerminal = PseudoTerminal();
-      pseudoTerminal.createSubprocess('bash');
+      pseudoTerminal = PseudoTerminal(executable: executable);
     }
     init();
   }
@@ -72,7 +59,6 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         });
       });
     });
-    if (widget.autoFocus) {}
     while (mounted) {
       final String cur = pseudoTerminal.readSync();
       if (cur.isNotEmpty) {
