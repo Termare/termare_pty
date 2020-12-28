@@ -36,7 +36,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     _controller.setPtyWindowSize(size);
     String executable = 'sh';
     if (Platform.isWindows) {
-      executable = 'powershell';
+      executable = r'C:\Windows\System32\wsl.exe';
     } else if (Platform.isMacOS) {
       executable = 'bash';
     }
@@ -51,7 +51,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   Future<void> init() async {
     while (mounted) {
       final String cur = await pseudoTerminal.read();
-      print('cur -> cur');
+      print('cur -> $cur');
       if (cur.isNotEmpty) {
         _controller.write(cur);
         _controller.autoScroll = true;
