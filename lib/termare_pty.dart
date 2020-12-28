@@ -36,7 +36,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     _controller.setPtyWindowSize(size);
     String executable = 'sh';
     if (Platform.isWindows) {
-      executable = 'cmd';
+      executable = 'powershell';
     } else if (Platform.isMacOS) {
       executable = 'bash';
     }
@@ -49,18 +49,9 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   }
 
   Future<void> init() async {
-    Future<void>.delayed(const Duration(milliseconds: 200), () {
-      // unixPtyC.write('cat /proc/version\n');
-      // unixPty.write('ssh root@192.168.43.1\n');
-      Future<void>.delayed(const Duration(milliseconds: 400), () {
-        // unixPty.write('mys906262255\n');
-        Future<void>.delayed(const Duration(milliseconds: 100), () {
-          // unixPty.write('neofetch\n');
-        });
-      });
-    });
     while (mounted) {
-      final String cur = pseudoTerminal.readSync();
+      final String cur = await pseudoTerminal.read();
+      print('cur -> cur');
       if (cur.isNotEmpty) {
         _controller.write(cur);
         _controller.autoScroll = true;
