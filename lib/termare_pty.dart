@@ -33,6 +33,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     final int column = screenWidth ~/ TermareStyles.termux.letterWidth;
     print('$this < row : $row column : $column>');
     _controller = widget.controller ?? TermareController();
+
     _controller.setPtyWindowSize(size);
     String executable = 'sh';
     if (Platform.isWindows) {
@@ -45,6 +46,9 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     } else {
       pseudoTerminal = PseudoTerminal(executable: executable);
     }
+    _controller.keyboardInput = (String data) {
+      pseudoTerminal.write(data);
+    };
     init();
   }
 
