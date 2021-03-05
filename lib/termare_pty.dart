@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:ui';
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:termare_view/termare_view.dart';
 
 class TermarePty extends StatefulWidget {
@@ -24,31 +20,13 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    final Size size = window.physicalSize;
-
-    final double screenWidth = size.width / window.devicePixelRatio;
-    final double screenHeight = size.height / window.devicePixelRatio;
-    // 行数
-    final int row = screenHeight ~/ TermareStyles.termux.letterHeight;
-    // 列数
-    final int column = screenWidth ~/ TermareStyles.termux.letterWidth;
-    print('$this < row : $row column : $column>');
     _controller = widget.controller ?? TermareController();
-
-    _controller.setPtyWindowSize(size);
-    String executable = 'sh';
-    if (Platform.isWindows) {
-      executable = r'C:\Windows\System32\wsl.exe';
-    } else if (Platform.isMacOS) {
-      executable = 'bash';
-    }
-    if (widget.pseudoTerminal != null) {
-      pseudoTerminal = widget.pseudoTerminal;
-    } else {
-      pseudoTerminal = PseudoTerminal(executable: executable);
-    }
+    pseudoTerminal = widget.pseudoTerminal;
     _controller.keyboardInput = (String data) {
       pseudoTerminal.write(data);
+    };
+    _controller.sizeChanged = (TermSize size) {
+      pseudoTerminal.resize(size.row, size.column);
     };
     init();
   }
@@ -74,11 +52,13 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       data: ThemeData(
         fontFamily: 'sarasa',
       ),
-      child: TermareView(
-        keyboardInput: (String data) {
-          pseudoTerminal.write(data);
-        },
-        controller: _controller,
+      child: SafeArea(
+        child: TermareView(
+          keyboardInput: (String data) {
+            pseudoTerminal.write(data);
+          },
+          controller: _controller,
+        ),
       ),
     );
   }
