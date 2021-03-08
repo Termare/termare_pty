@@ -39,19 +39,17 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         _controller.write(cur);
         _controller.autoScroll = true;
         _controller.notifyListeners();
-        await Future<void>.delayed(const Duration(milliseconds: 10));
+        await Future<void>.delayed(const Duration(milliseconds: 1));
       } else {
-        await Future<void>.delayed(const Duration(milliseconds: 100));
+        await Future<void>.delayed(const Duration(milliseconds: 10));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: ThemeData(
-        fontFamily: 'sarasa',
-      ),
+    return Material(
+      color: _controller.theme.backgroundColor,
       child: SafeArea(
         child: TermareView(
           keyboardInput: (String data) {
