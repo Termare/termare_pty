@@ -1,4 +1,5 @@
 import 'package:dart_pty/dart_pty.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:termare_view/termare_view.dart';
 
@@ -20,9 +21,11 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     _controller = widget.controller ?? TermareController();
+
     pseudoTerminal = widget.pseudoTerminal;
-    _controller.keyboardInput = (String data) {
+    _controller.input = (String data) {
       pseudoTerminal.write(data);
     };
     _controller.sizeChanged = (TermSize size) {
@@ -34,6 +37,10 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   Future<void> init() async {
     while (mounted) {
       final String cur = await pseudoTerminal.read();
+      // final String cur = await compute(
+      //   FileDescriptor.readSync,
+      //   pseudoTerminal.pseudoTerminalId,
+      // );
       // print('cur -> $cur');
       if (cur.isNotEmpty) {
         _controller.write(cur);
@@ -41,7 +48,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         _controller.notifyListeners();
         await Future<void>.delayed(const Duration(milliseconds: 1));
       } else {
-        await Future<void>.delayed(const Duration(milliseconds: 10));
+        await Future<void>.delayed(const Duration(milliseconds: 20));
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/material.dart';
 import 'termare_pty.dart';
 
@@ -15,7 +16,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'sarasa',
       ),
-      home: const TermarePty(),
+      home: Scaffold(
+        body: TermarePty(
+          pseudoTerminal: PseudoTerminal(
+            executable: 'sh',
+          ),
+        ),
+      ),
     );
   }
 }
