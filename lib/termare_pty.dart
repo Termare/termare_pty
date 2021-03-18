@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -35,18 +39,24 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   }
 
   Future<void> init() async {
+    // File file = File(
+    //   '/data/data/com.nightmare.termare/neofetch.txt',
+    // );
+    // file.createSync();
     while (mounted) {
-      final String cur = await pseudoTerminal.read();
+      final List<int> codeUnits = await pseudoTerminal.read();
       // final String cur = await compute(
       //   FileDescriptor.readSync,
       //   pseudoTerminal.pseudoTerminalId,
       // );
       // print('cur -> $cur');
-      if (cur.isNotEmpty) {
-        _controller.write(cur);
+      // final Uint8List pre = file.readAsBytesSync();
+      // file.writeAsBytesSync(pre + utf8.encode(cur));
+      if (codeUnits.isNotEmpty) {
+        _controller.writeCodeUnits(codeUnits);
         _controller.autoScroll = true;
         _controller.notifyListeners();
-        await Future<void>.delayed(const Duration(milliseconds: 1));
+        await Future<void>.delayed(const Duration(microseconds: 800));
       } else {
         await Future<void>.delayed(const Duration(milliseconds: 20));
       }
@@ -57,13 +67,11 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Material(
       color: _controller.theme.backgroundColor,
-      child: SafeArea(
-        child: TermareView(
-          keyboardInput: (String data) {
-            pseudoTerminal.write(data);
-          },
-          controller: _controller,
-        ),
+      child: TermareView(
+        keyboardInput: (String data) {
+          pseudoTerminal.write(data);
+        },
+        controller: _controller,
       ),
     );
   }
