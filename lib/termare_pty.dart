@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:dart_pty/dart_pty.dart';
+import 'package:dart_pty/dart_pty.dart' hide PseudoTerminal;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pty/pty.dart';
 import 'package:termare_view/termare_view.dart';
 
 class TermarePty extends StatefulWidget {
@@ -28,13 +25,14 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
 
     _controller = widget.controller ?? TermareController();
 
-    pseudoTerminal = widget.pseudoTerminal;
+    pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal.start('cmd', []);
     _controller.input = (String data) {
       pseudoTerminal.write(data);
     };
     _controller.sizeChanged = (TermSize size) {
-      pseudoTerminal.resize(size.row, size.column);
+      pseudoTerminal.resize(size.column, size.row);
     };
+
     init();
   }
 

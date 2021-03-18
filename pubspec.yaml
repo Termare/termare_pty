@@ -25,6 +25,8 @@ dependencies:
     path: ../dart_pty
   flutter:
     sdk: flutter
+  pty:
+    path :  C:\Users\Nightmare\Documents\Termare\pty
   termare_view:
     path: ../termare_view
 
