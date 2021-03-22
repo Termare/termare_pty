@@ -1,7 +1,6 @@
-import 'package:dart_pty/dart_pty.dart' hide PseudoTerminal;
+import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pty/pty.dart';
 import 'package:termare_view/termare_view.dart';
 
 class TermarePty extends StatefulWidget {
@@ -9,9 +8,11 @@ class TermarePty extends StatefulWidget {
     Key key,
     this.controller,
     this.pseudoTerminal,
+    this.enableInput = true,
   }) : super(key: key);
   final TermareController controller;
   final PseudoTerminal pseudoTerminal;
+  final bool enableInput;
   @override
   _TermarePtyState createState() => _TermarePtyState();
 }
@@ -25,12 +26,12 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
 
     _controller = widget.controller ?? TermareController();
 
-    pseudoTerminal = widget.pseudoTerminal ?? PseudoTerminal.start('cmd', []);
+    pseudoTerminal = widget.pseudoTerminal;
     _controller.input = (String data) {
       pseudoTerminal.write(data);
     };
     _controller.sizeChanged = (TermSize size) {
-      pseudoTerminal.resize(size.column, size.row);
+      pseudoTerminal.resize(size.row, size.column);
     };
 
     init();
@@ -54,7 +55,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
         _controller.writeCodeUnits(codeUnits);
         _controller.autoScroll = true;
         _controller.notifyListeners();
-        await Future<void>.delayed(const Duration(microseconds: 800));
+        await Future<void>.delayed(const Duration(milliseconds: 10));
       } else {
         await Future<void>.delayed(const Duration(milliseconds: 20));
       }
@@ -66,9 +67,11 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     return Material(
       color: _controller.theme.backgroundColor,
       child: TermareView(
-        keyboardInput: (String data) {
-          pseudoTerminal.write(data);
-        },
+        keyboardInput: widget.enableInput
+            ? (String data) {
+                pseudoTerminal.write(data);
+              }
+            : null,
         controller: _controller,
       ),
     );
