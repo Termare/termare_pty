@@ -1,7 +1,11 @@
+library termare_pty;
+
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:termare_view/termare_view.dart';
+
+export 'package:dart_pty/dart_pty.dart';
 
 class TermarePty extends StatefulWidget {
   const TermarePty({

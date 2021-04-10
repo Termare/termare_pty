@@ -46,9 +46,11 @@ packages:
   dart_pty:
     dependency: "direct main"
     description:
-      path: "../dart_pty"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "51a5b53de9ca5a5e2eaf87122bf6fde5c837a2c7"
+      url: "https://github.com/termare/dart_pty"
+    source: git
     version: "0.0.3"
   executorservices:
     dependency: transitive
