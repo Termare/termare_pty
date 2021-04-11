@@ -154,9 +154,11 @@ packages:
   termare_view:
     dependency: "direct main"
     description:
-      path: "../termare_view"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "52ba531c6517d8e75df6c3d3b665ad1e5b8235b6"
+      url: "https://github.com/termare/termare_view"
+    source: git
     version: "0.0.2"
   test_api:
     dependency: transitive
