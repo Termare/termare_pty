@@ -48,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "51a5b53de9ca5a5e2eaf87122bf6fde5c837a2c7"
+      resolved-ref: "47d757ea5324e675a26a2387b06147a49b1df696"
       url: "https://github.com/termare/dart_pty"
     source: git
     version: "0.0.3"
@@ -110,7 +110,7 @@ packages:
       name: quiver
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -156,7 +156,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "52ba531c6517d8e75df6c3d3b665ad1e5b8235b6"
+      resolved-ref: f799a8ad4e844aa23e130507cf690711e643208e
       url: "https://github.com/termare/termare_view"
     source: git
     version: "0.0.2"
@@ -166,7 +166,7 @@ packages:
       name: test_api
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:
@@ -187,7 +187,7 @@ packages:
       name: win32
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.5"
 sdks:
-  dart: ">=2.12.0-259.9.beta <3.0.0"
+  dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"

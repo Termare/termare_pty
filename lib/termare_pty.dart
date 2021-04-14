@@ -57,7 +57,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       // file.writeAsBytesSync(pre + utf8.encode(cur));
       if (codeUnits.isNotEmpty) {
         _controller.writeCodeUnits(codeUnits);
-        _controller.autoScroll = true;
+        _controller.enableAutoScroll();
         _controller.notifyListeners();
         await Future<void>.delayed(const Duration(milliseconds: 10));
       } else {
