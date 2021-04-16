@@ -48,7 +48,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "47d757ea5324e675a26a2387b06147a49b1df696"
+      resolved-ref: "1d9db6677778a194a0b6a97ac8da233147589f94"
       url: "https://github.com/termare/dart_pty"
     source: git
     version: "0.0.3"
@@ -156,7 +156,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: f799a8ad4e844aa23e130507cf690711e643208e
+      resolved-ref: "6561cc240a303c6f482478b2d5b653196e0350f2"
       url: "https://github.com/termare/termare_view"
     source: git
     version: "0.0.2"
