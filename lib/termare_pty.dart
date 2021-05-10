@@ -9,12 +9,12 @@ export 'package:dart_pty/dart_pty.dart';
 
 class TermarePty extends StatefulWidget {
   const TermarePty({
-    Key key,
+    Key? key,
     this.controller,
     this.pseudoTerminal,
     this.enableInput = true,
   }) : super(key: key);
-  final TermareController controller;
+  final TermareController? controller;
   final PseudoTerminal pseudoTerminal;
   final bool enableInput;
   @override
