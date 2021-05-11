@@ -46,11 +46,9 @@ packages:
   dart_pty:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "78020032ff13a7b4a74bc2f66f8dce56e03a2cc9"
-      url: "https://github.com/termare/dart_pty"
-    source: git
+      path: "/Users/nightmare/Desktop/nightmare-space/dart_pty"
+      relative: false
+    source: path
     version: "0.0.3"
   executorservices:
     dependency: transitive
@@ -111,6 +109,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.1"
+  signale:
+    dependency: transitive
+    description:
+      name: signale
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.3"
   sky_engine:
     dependency: transitive
     description: flutter

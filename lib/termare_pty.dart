@@ -1,5 +1,7 @@
 library termare_pty;
 
+import 'dart:convert';
+
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +11,12 @@ export 'package:dart_pty/dart_pty.dart';
 
 class TermarePty extends StatefulWidget {
   const TermarePty({
-    Key? key,
+    Key key,
     this.controller,
     this.pseudoTerminal,
     this.enableInput = true,
   }) : super(key: key);
-  final TermareController? controller;
+  final TermareController controller;
   final PseudoTerminal pseudoTerminal;
   final bool enableInput;
   @override
@@ -37,8 +39,12 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     _controller.sizeChanged = (TermSize size) {
       pseudoTerminal.resize(size.row, size.column);
     };
-
-    init();
+    pseudoTerminal.out.transform(utf8.decoder).listen((line) {
+      _controller.writeCodeUnits(utf8.encode(line));
+      _controller.enableAutoScroll();
+      _controller.notifyListeners();
+    });
+    // init();
   }
 
   Future<void> init() async {
