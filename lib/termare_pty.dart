@@ -39,6 +39,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     _controller.sizeChanged = (TermSize size) {
       pseudoTerminal.resize(size.row, size.column);
     };
+    pseudoTerminal.startPolling();
     pseudoTerminal.out.transform(utf8.decoder).listen((line) {
       _controller.writeCodeUnits(utf8.encode(line));
       _controller.enableAutoScroll();
