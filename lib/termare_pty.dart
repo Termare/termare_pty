@@ -50,7 +50,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       if (!mounted) {
         return;
       }
-      streamSubscription = pseudoTerminal.out.transform(utf8.decoder).listen(
+      streamSubscription ??= pseudoTerminal.out.transform(utf8.decoder).listen(
         (String data) {
           _controller.writeCodeUnits(utf8.encode(data));
           _controller.enableAutoScroll();
@@ -60,6 +60,14 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
     });
     // init();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   if (widget.controller != null) {
+  //     _controller = widget.controller;
+  //   }
+  // }
 
   @override
   void dispose() {
