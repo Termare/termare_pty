@@ -78,14 +78,17 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _controller.theme.backgroundColor,
       resizeToAvoidBottomInset: true,
-      body: TermareView(
-        keyboardInput: widget.enableInput
-            ? (String data) {
-                pseudoTerminal.write(data);
-              }
-            : null,
-        controller: _controller,
+      body: SafeArea(
+        child: TermareView(
+          keyboardInput: widget.enableInput
+              ? (String data) {
+                  pseudoTerminal.write(data);
+                }
+              : null,
+          controller: _controller,
+        ),
       ),
     );
   }

@@ -18,10 +18,11 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: TermarePty(
-            // pseudoTerminal: PseudoTerminal(
-            //   executable: 'sh',
-            // ),
-            ),
+          pseudoTerminal: PseudoTerminal(
+            executable: 'sh',
+            arguments: ['-l'],
+          ),
+        ),
       ),
     );
   }
