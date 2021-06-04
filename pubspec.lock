@@ -46,7 +46,7 @@ packages:
   dart_pty:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/termare-space/dart_pty"
+      path: "C:\\Users\\Nightmare\\Documents\\termare-space\\dart_pty"
       relative: false
     source: path
     version: "0.0.3"
@@ -161,9 +161,11 @@ packages:
   termare_view:
     dependency: "direct main"
     description:
-      path: "/Users/nightmare/Desktop/termare-space/termare_view"
-      relative: false
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: dc5e56fce00de3ecfac5312135255e5bdb168230
+      url: "https://github.com/termare/termare_view"
+    source: git
     version: "0.0.7"
   test_api:
     dependency: transitive
@@ -195,3 +197,4 @@ packages:
     version: "2.1.1"
 sdks:
   dart: ">=2.13.0 <3.0.0"
+  flutter: ">=1.17.0"

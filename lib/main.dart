@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: TermarePty(
           pseudoTerminal: PseudoTerminal(
-            executable: 'sh',
-            arguments: ['-l'],
+            executable: 'cmd',
+            arguments: [''],
           ),
         ),
       ),

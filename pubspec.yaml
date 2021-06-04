@@ -49,7 +49,7 @@ flutter:
 
 dependency_overrides:
 
-  termare_view:
-    path: /Users/nightmare/Desktop/termare-space/termare_view
+  # termare_view:
+  #   path: /Users/nightmare/Desktop/termare-space/termare_view
   dart_pty:
-    path: /Users/nightmare/Desktop/termare-space/dart_pty
+    path: C:\Users\Nightmare\Documents\termare-space\dart_pty
