@@ -46,7 +46,7 @@ packages:
   dart_pty:
     dependency: "direct main"
     description:
-      path: "C:\\Users\\Nightmare\\Documents\\termare-space\\dart_pty"
+      path: "/Users/nightmare/Desktop/termare-space/dart_pty"
       relative: false
     source: path
     version: "0.0.3"

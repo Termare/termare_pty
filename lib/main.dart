@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_pty/dart_pty.dart';
 import 'package:flutter/material.dart';
 import 'termare_pty.dart';
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: TermarePty(
           pseudoTerminal: PseudoTerminal(
-            executable: 'cmd',
+            executable: Platform.isWindows ? 'cmd' : 'sh',
             arguments: [''],
           ),
         ),
