@@ -28,12 +28,15 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
   TermareController _controller;
   PseudoTerminal pseudoTerminal;
   StreamSubscription streamSubscription;
+
   @override
   void initState() {
     super.initState();
 
     _controller = widget.controller ?? TermareController();
-
+    _controller.schedulingRead = () {
+      pseudoTerminal.schedulingRead();
+    };
     pseudoTerminal = widget.pseudoTerminal;
     _controller.input = (String data) {
       pseudoTerminal.write(data);
@@ -52,13 +55,12 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       }
       streamSubscription ??= pseudoTerminal.out.listen(
         (String data) {
-          _controller.writeCodeUnits(utf8.encode(data));
+          _controller.write(data);
           _controller.enableAutoScroll();
-          // print('data -> $data');
-          _controller.notifyListeners();
         },
       );
     });
+
     // init();
   }
 
@@ -86,6 +88,7 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
           keyboardInput: widget.enableInput
               ? (String data) {
                   pseudoTerminal.write(data);
+                  // pseudoTerminal.schedulingRead();
                 }
               : null,
           controller: _controller,

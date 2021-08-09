@@ -9,21 +9,26 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  PseudoTerminal pseudoTerminal = PseudoTerminal(
+    executable: Platform.isWindows ? 'cmd' : 'sh',
+    arguments: [''],
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      showPerformanceOverlay: true,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'sarasa',
       ),
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          pseudoTerminal.schedulingRead();
+        }),
         body: TermarePty(
-          pseudoTerminal: PseudoTerminal(
-            executable: Platform.isWindows ? 'cmd' : 'sh',
-            arguments: [''],
-          ),
+          pseudoTerminal: pseudoTerminal,
         ),
       ),
     );
