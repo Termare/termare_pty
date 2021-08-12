@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'sarasa',
       ),
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          pseudoTerminal.schedulingRead();
-        }),
+        // floatingActionButton: FloatingActionButton(onPressed: () {
+        //   pseudoTerminal.schedulingRead();
+        // }),
         body: TermarePty(
           pseudoTerminal: pseudoTerminal,
         ),
