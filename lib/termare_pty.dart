@@ -56,6 +56,8 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       streamSubscription ??= pseudoTerminal.out.listen(
         (String data) {
           _controller.write(data);
+          _controller.enableAutoScroll();
+          _controller.notifyListeners();
         },
       );
     });
