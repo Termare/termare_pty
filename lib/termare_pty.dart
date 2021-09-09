@@ -45,22 +45,21 @@ class _TermarePtyState extends State<TermarePty> with TickerProviderStateMixin {
       pseudoTerminal.resize(size.row, size.column);
     };
     pseudoTerminal.startPolling();
+    pseudoTerminal.schedulingRead();
     // print('$this init');
     // print('\x1b[31m监听的id 为${pseudoTerminal.pseudoTerminalId}');
     // 延时有用，是termare_app引起的。
     // PageView.builder会在短时间init与dispose这个widget
-    Future<void>.delayed(const Duration(milliseconds: 100), () {
-      if (!mounted) {
-        return;
-      }
-      streamSubscription ??= pseudoTerminal.out.listen(
-        (String data) {
-          _controller.write(data);
-          _controller.enableAutoScroll();
-          _controller.notifyListeners();
-        },
-      );
-    });
+    if (!mounted) {
+      return;
+    }
+    streamSubscription ??= pseudoTerminal.out.listen(
+      (String data) {
+        _controller.write(data);
+        _controller.enableAutoScroll();
+        _controller.notifyListeners();
+      },
+    );
 
     // init();
   }
